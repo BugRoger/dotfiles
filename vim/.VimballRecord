@@ -1,0 +1,1 @@
+textobj-rubyblock.vba: call delete('/Users/d038720/.vim/plugin/textobj/rubyblock.vim')|call delete('/Users/d038720/.vim/doc/textobj-rubyblock.txt')

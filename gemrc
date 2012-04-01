@@ -1,0 +1,11 @@
+--- 
+:bulk_threshold: 1000
+:update_sources: true
+gem: --no-ri --no-rdoc
+http_proxy: :no_proxy
+:backtrace: false
+:sources: 
+  - http://moo-repo.wdf.sap.corp:8080/rubygemsorg/
+  - http://moo-repo.wdf.sap.corp:8080/geminabox/
+:benchmark: false
+:verbose: true
