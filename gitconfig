@@ -7,6 +7,8 @@
 [alias]
   co = checkout
   ci = commit
+  ca = commit --amend 
+  cn = commit --amend --no-edit
   st = status
   br = branch
   next = !git add . && git rebase --continue
