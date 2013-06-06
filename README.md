@@ -1,7 +1,7 @@
-Installation
+# Installation
 
-    git clone git://github.com/BugRoger/dotfiles.git
-    git clone git://github.com/BugRoger/dotfiles-source.git
+    git clone https://github.com/BugRoger/dotfiles.git
+    git clone https://github.com/BugRoger/dotfiles-source.git
 
 Where possible, Vim plugins are installed as git submodules. Check these out by
 running the commands:
@@ -9,12 +9,9 @@ running the commands:
     cd dotfiles
     git submodule init
     git submodule update
+    ./install
 
-# VIM 
-
-My preferences for Vim are stored in `dotfiles/vimrc`.
-
-## Adding Bundles
+## VIM
 
 Plugins that are published on github can be installed as submodules. 
 
