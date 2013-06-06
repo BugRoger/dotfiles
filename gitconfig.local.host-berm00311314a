@@ -1,0 +1,7 @@
+[user]
+	name = Michael Schmidt
+	email = michael02.schmidt@sap.com
+[http]
+	postBuffer = 524288000
+	sslVerify = false
+	proxy = http://proxy.wdf.sap.corp:8080

@@ -1,31 +1,35 @@
-[user]
-	name = Michael Schmidt
-	email = michael.j.schmidt@gmail.com
-[github]
-	user = BugRoger
-	token = e79c2ff73904f06234b9120424c3ed50
 [alias]
-  co = checkout
-  ci = commit
-  ca = commit --amend 
-  cn = commit --amend --no-edit
-  st = status
-  br = branch
-  next = !git add . && git rebase --continue
-  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-  type = cat-file -t
-  dump = cat-file -p
-  l50 = "!git log --abbrev-commit --date=short --pretty=format:'%x00%h%x00%cd%x00%s%x00%an%x00%d' | gawk -F '\\0' '{ printf \"%s\\033[31m%s\\033[0m \\033[32m%s\\033[0m | %-50.50s \\033[30;1m%s\\033[0m\\033[33m%s\\n\", $1, $2, $3, gensub(/(.{49}).{2,}/, \"\\\\1…\",\"g\",$4), $5, $6 }'"
-  l = "!git log --abbrev-commit --date=short --pretty=format:'%x00%h%x00%cd%x00%s%x00%an%x00%d' | gawk -F '\\0' '{ printf \"%s\\033[31m%s\\033[0m \\033[32m%s\\033[0m | %-80.80s \\033[30;1m%s\\033[0m\\033[33m%s\\n\", $1, $2, $3, gensub(/(.{79}).{2,}/, \"\\\\1…\",\"g\",$4), $5, $6 }'"
-  lg50 = "!git log --graph --color=always --abbrev-commit --date=relative --pretty=format:'%x00%h%x00%s%x00%cd%x00%an%x00%d' | gawk -F '\\0' '{ printf \"%s\\033[31m%s\\033[0m %-50.50s \\033[32m%14s\\033[0m \\033[30;1m%s\\033[0m\\033[33m%s\\n\", $1, $2, gensub(/(.{49}).{2,}/, \"\\\\1…\",\"g\",$3), $4, $5, $6 }'"
-  lg80 = "!git log --graph --color=always --abbrev-commit --date=relative --pretty=format:'%x00%h%x00%s%x00%cd%x00%an%x00%d' | gawk -F '\\0' '{ printf \"%s\\033[31m%s\\033[0m %-80.80s \\033[32m%14s\\033[0m \\033[30;1m%s\\033[0m\\033[33m%s\\n\", $1, $2, gensub(/(.{79}).{2,}/, \"\\\\1…\",\"g\",$3), $4, $5, $6 }'"
-[http]
-	postBuffer = 524288000
-	sslVerify = false
+  next = !git add . && git rebase --continue           # add merged file. continue
+  rma  = !git ls-files -z --deleted | xargs -0 git rm  # stage all deletetion
+  ca   = commit --amend --reuse-message=HEAD           # amend and reuse message
+
+  l    = !source ~/.githelpers && pretty_git_log       # pretty log
+  lg   = !source ~/.githelpers && pretty_github_log    # pretty log
+  la   = !git l --all                                  #   with references
+  r    = !git l -22                                    #   recent only 
+  ra   = !git r --all                                  #   recent with references
+
+  s    = !git status
+  a    = !git add
+  c    = !git commit
+  d    = !git diff
+
 [branch]
 	autosetuprebase = always
+
 [core]
 	editor = mvim -g -f
 	excludesfile = ~/.gitignore
+
 [color]
 	ui = auto
+
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+
+[push]
+	default = current
+
+[include]
+  path = .gitconfig.local
