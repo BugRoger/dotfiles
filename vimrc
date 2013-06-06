@@ -4,6 +4,8 @@ execute pathogen#infect()
 
 filetype plugin indent on
 
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
 "gets rid of all the crap that Vim does to be vi compatible
 set nocompatible
 
