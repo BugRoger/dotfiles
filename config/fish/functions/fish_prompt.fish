@@ -7,10 +7,13 @@ function _is_git_dirty
 end
 
 function _rbenv_version
-  echo (rbenv version-name | sed -e 's/ .*//')
+  if type -P rbenv >/dev/null
+    echo (rbenv version-name | sed -e 's/ .*//')
+  end
 end
 
 function fish_prompt
+
   set -l cyan (set_color -o cyan)
   set -l yellow (set_color -o yellow)
   set -l red (set_color -o red)
@@ -37,7 +40,10 @@ function fish_prompt
     set git_info " $yellow‹$git_info$indicator$yellow›"
   end
 
-  autojump -a $PWD > /dev/null &
+  if type -P autojump >/dev/null
+    autojump -a $PWD > /dev/null &
+  end
+
   echo -n -s $arrow $cwd $ruby_info $git_info $normal ' '
 end
 
