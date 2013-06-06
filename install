@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require "../dotfiles-source/lib/dotfiles"
+DotFiles.symlink
