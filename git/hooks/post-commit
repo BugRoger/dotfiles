@@ -1,3 +1,0 @@
-#!/bin/sh
-
-afplay ~/.git/hooks/post-commit.caf > /dev/null 2>&1 &

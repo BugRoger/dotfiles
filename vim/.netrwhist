@@ -1,5 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='scp://expertondemand-staging.wdf.sap.corp/.ssh/'
-let g:netrw_dirhist_2='/Users/d038720/.ssh'
-let g:netrw_dirhist_3='/Users/michael/Git/area5q/autologger'
