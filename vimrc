@@ -36,6 +36,7 @@ set laststatus=2
 set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 set nofoldenable
 set foldmethod=manual
+set clipboard=unnamed
 
 " Disable swapfile and backup {{{2
 set nobackup
