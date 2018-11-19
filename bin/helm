@@ -1,0 +1,6 @@
+#!/bin/bash  
+
+HELM_COMMAND=/usr/local/bin/helm-v2.11.0
+KUBECTL_CONTEXT=${KUBECTL_CONTEXT:-$(${KUBECTL_COMMAND} config current-context)}
+
+exec $HELM_COMMAND --kube-context $KUBECTL_CONTEXT "$@"

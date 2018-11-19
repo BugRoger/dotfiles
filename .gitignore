@@ -1,0 +1,6 @@
+*/fish/fish_history
+*/fish/fishd.*
+config/fish/fish_read_history
+config/direnv/allow
+vim/.netrwhist
+config/gocode/

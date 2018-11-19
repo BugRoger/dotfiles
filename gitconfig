@@ -1,0 +1,33 @@
+[alias]
+  next = !git add . && git rebase --continue           # add merged file. continue
+  rma  = !git ls-files -z --deleted | xargs -0 git rm  # stage all deletetion
+  ca   = commit --amend --reuse-message=HEAD           # amend and reuse message
+
+  l    = !source ~/.githelpers && pretty_git_log       # pretty log
+  lg   = !source ~/.githelpers && pretty_github_log    # pretty log
+  la   = !git l --all                                  #   with references
+  r    = !git l -22                                    #   recent only 
+  ra   = !git r --all                                  #   recent with references
+
+[core]
+	editor = mvim -g -f
+	excludesfile = ~/.gitignore
+
+[color]
+	ui = auto
+
+[push]
+	default = simple
+
+[include]
+  path = .gitlocalconfig
+
+[web]
+	browser = open
+[credential]
+	helper = osxkeychain
+
+[branch]
+	autosetupmerge = true
+[gitreview]
+	username = michael02.schmidt@sap.com

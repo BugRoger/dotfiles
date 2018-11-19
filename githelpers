@@ -1,0 +1,42 @@
+#!/bin/bash
+
+HASH="%C(yellow)%h%C(reset)"
+RELATIVE_TIME="%C(green)%ar%C(reset)"
+AUTHOR="%C(bold blue)%an%C(reset)"
+REFS="%C(red)%d%C(reset)"
+SUBJECT="%s%C(reset)"
+
+FORMAT="$HASH{$RELATIVE_TIME{$AUTHOR{$REFS $SUBJECT"
+
+function pretty_git_log() {
+  git log --graph --pretty="tformat:$FORMAT" $* |
+  column -t -s '{' |
+  less -FXRS
+}
+
+function github_url() {
+  local remote="$(git remote -v 2> /dev/null | awk '/^origin.*\(push\)$/ {print $2}')"
+
+  [[ "$remote" ]] || return
+
+  if [[ "$remote" =~ .+@(github.+)[:|/](.+)/(.+).git ]]; then
+    host="${BASH_REMATCH[1]}"
+    user="${BASH_REMATCH[2]}"
+    repo="${BASH_REMATCH[3]}"
+
+    printf "https://$host/$user/$repo\n"
+  fi
+}
+
+function pretty_github_log() {
+  local url=$(github_url)
+
+  git log --graph --pretty="tformat:$FORMAT" $* |
+  awk "$(cat <<AWK
+    BEGIN { FS = "{";  }
+    /(.*\{.*)/ { sha=\$1; sub(/.*33m/, "", sha); printf "%s{$url/commit/%s\n", \$0, sha; next }
+    /.*/ {print \$0}
+    AWK)" | 
+  column -t -s '{' |
+  less -FXRS
+}
