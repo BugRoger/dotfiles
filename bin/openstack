@@ -1,5 +1,7 @@
 #!/bin/bash  
 
+set -x
+
 OS_PASSWORD=${OS_PASSWORD:-$(security find-generic-password -a $USER -s openstack -w)}
 OS_USERNAME=${OS_USERNAME:-$USER}
 [[ -n "$OS_USER_ID" ]]                                            && (unset OS_USERNAME; unset OS_USER_DOMAIN_NAME)
@@ -25,3 +27,5 @@ docker run -ti \
   -e "OS_USER_DOMAIN_NAME=$OS_PROJECT_DOMAIN_NAME" \
   -e "OS_PASSWORD=$OS_PASSWORD" \
   hub.global.cloud.sap/monsoon/cc-openstack-cli:latest $(basename $(readlink -nf $0)) $@ 
+#  hub.global.cloud.sap/monsoon/cc-openstack-cli:latest $@ 
+

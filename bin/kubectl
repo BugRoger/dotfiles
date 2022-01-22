@@ -1,12 +1,3 @@
-#!/bin/bash  
+#!/bin/bash
 
-set -x
-
-KUBECTL_COMMAND=/usr/local/bin/kubectl-v1.10.0
-KUBECTL_NAMESPACE=${KUBECTL_NAMESPACE:-default}
-[[ -z "$KUBECTL_CONTEXT" ]] && KUBECTL_CONTEXT=$(cat ~/.kube/config | grep "current-context:" | sed "s/current-context: //")
-
-monsoonctl                 --context=$KUBECTL_CONTEXT --github-token=$(security find-generic-password -a $USER -s monsoonctl -w) 
-kubernikusctl auth refresh --context=$KUBECTL_CONTEXT --password=$(security find-generic-password -a $USER -s openstack -w) 
-
-exec $KUBECTL_COMMAND --context $KUBECTL_CONTEXT --namespace $KUBECTL_NAMESPACE "$@"
+exec /usr/local/bin/u8s kubectl -- "$@" >2 /dev/null

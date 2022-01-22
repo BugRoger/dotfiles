@@ -1,0 +1,41 @@
+#!/bin/bash
+set -x
+
+KUBECTL_COMMAND="u8s kubectl --"
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -n|--node)
+    NODE="$2"
+    shift
+    shift
+    ;;
+    -r|--region)
+    REGION="$2"
+    shift
+    shift
+    ;;
+    -c|--cluster)
+    CLUSTER="$2"
+    shift
+    shift
+    ;;
+    *)
+    POSITIONAL+=("$1")
+    shift
+    ;;
+esac
+done
+
+
+[[ -z "$NODE"    ]] && echo "You need to specify the IP of a node: --node 10.180.12.34" && exit -1
+[[ -z "$REGION"  ]] && echo "You need to specify the region of the cluster: --region la-br-1" && exit -1
+[[ -z "$CLUSTER" ]] && echo "You need to specify the cluster id: --cluster d038720-ffe12ea3699f5f4f3" && exit -1
+
+pass=$($KUBECTL_COMMAND --context k-$REGION --namespace kubernikus get secret -o json ${CLUSTER}-secret | grep -v logon | jq -r '.data."node-password"|@base64d')
+pod=$($KUBECTL_COMMAND  --context k-$REGION --namespace kubernikus get pods -l app=${CLUSTER}-apiserver -o json | grep -v logon | jq -r .items[0].metadata.name)
+$KUBECTL_COMMAND        --context k-$REGION --namespace kubernikus exec -ti ${pod} -c apiserver -- /bin/sh -c "apt-get -y -qq update; apt-get -y -qq install sshpass; sshpass -p ${pass} ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no core@${NODE}"
