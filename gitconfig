@@ -10,7 +10,7 @@
   ra   = !git r --all                                  #   recent with references
 
 [core]
-	editor = mvim -g -f
+	editor = vim -f
 	excludesfile = ~/.gitignore
 
 [color]
