@@ -3,6 +3,8 @@ set -g fish_greeting ''
 set EDITOR /usr/bin/vim
 set GOPATH ~/go
 
+set -g fish_user_paths "$HOME/.dotfiles/bin" $fish_user_paths
+set -g fish_user_paths "/opt/homebrew/bin" $fish_user_paths
 set -g fish_user_paths "/usr/local/bin" $fish_user_paths
 set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
 set -g fish_user_paths "$GOBINPATH/bin" $fish_user_paths
@@ -11,8 +13,6 @@ set -g fish_user_paths "/usr/local/opt/openssl/bin" $fish_user_paths
 set -g fish_user_paths "/usr/local/opt/curl/bin" $fish_user_paths
 set -g fish_user_paths "/usr/local/opt/coreutils/libexec/gnubin" $fish_user_paths
 set -g fish_user_paths "/usr/local/opt/go/libexec/bin" $fish_user_paths
-
-set -gx U8S_GITHUB_TOKEN (security find-generic-password -a $USER -s U8S_GITHUB_TOKEN -w)
 
 alias h="u8s helm3 --"
 alias h3="u8s helm3 --"
@@ -68,12 +68,12 @@ function fish_user_key_bindings
   bind \e\[1\;9D 'backward-word'
 end
 
-test -e "/usr/local/share/autojump/autojump.fish" ; and source /usr/local/share/autojump/autojump.fish
+test -e "/opt/homebrew/share/autojump/autojump.fish" ; and source /opt/homebrew/share/autojump/autojump.fish
 test -e "{$HOME}/.iterm2_shell_integration.fish" ; and source {$HOME}/.iterm2_shell_integration.fish
 test -e "/usr/local/bin/direnv"; and eval (direnv hook fish)
 
 # Base16 Shell
-if status --is-interactive; and test -e "{$HOME}/.config/base16-shell"
+if status --is-interactive
     set BASE16_SHELL "$HOME/.config/base16-shell/"
     source "$BASE16_SHELL/profile_helper.fish"
 end
