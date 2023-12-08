@@ -26,6 +26,6 @@ docker run -ti \
   -e "OS_USERNAME=$OS_USERNAME" \
   -e "OS_USER_DOMAIN_NAME=$OS_PROJECT_DOMAIN_NAME" \
   -e "OS_PASSWORD=$OS_PASSWORD" \
-  hub.global.cloud.sap/monsoon/cc-openstack-cli:latest $(basename $(readlink -nf $0)) $@ 
+  sapcc/openstack-client $(basename $(readlink -nf $0)) $@ 
 #  hub.global.cloud.sap/monsoon/cc-openstack-cli:latest $@ 
 

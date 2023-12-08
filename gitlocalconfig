@@ -1,3 +1,6 @@
 [user]
 	name = Michael Schmidt
-	email = michael.j.schmidt@gmail.com 
+	email = michael02.schmidt@sap.com
+
+[gitreview]
+  username = michael02.schmidt@sap.com

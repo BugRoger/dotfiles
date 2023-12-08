@@ -24,10 +24,16 @@
 
 [web]
 	browser = open
+
 [credential]
 	helper = osxkeychain
 
 [branch]
 	autosetupmerge = true
-[gitreview]
-	username = michael02.schmidt@sap.com
+
+[gpg]
+	format = ssh
+
+[commit]
+	gpgsign = true
+
