@@ -14,6 +14,8 @@ set -g fish_user_paths "/usr/local/opt/curl/bin" $fish_user_paths
 set -g fish_user_paths "/usr/local/opt/coreutils/libexec/gnubin" $fish_user_paths
 set -g fish_user_paths "/usr/local/opt/go/libexec/bin" $fish_user_paths
 
+alias t="talosctl"
+
 alias h="u8s helm3 --"
 alias h3="u8s helm3 --"
 alias h2="u8s helm2 --"
@@ -21,15 +23,23 @@ alias h2="u8s helm2 --"
 alias k="u8s kubectl --"
 alias kn="u8s set --namespace"
 alias kc="u8s set --context"
-alias kk="u8s set --kubeconfig"
+function kk
+  set -l config_path $argv[1]
+  set -l current_ctx (kubectl --kubeconfig $config_path config current-context 2>/dev/null)
+  u8s set --kubeconfig $config_path --context $current_ctx
+end
 
 alias ke="u8s kubectl -- exec -ti"
 alias kl="u8s kubectl -- logs -f"
 alias kg="u8s kubectl -- get"
 alias kgy="u8s kubectl -- get -o yaml"
+alias kgpw="u8s kubectl -- get pods -o wide -w"
 alias kgp="u8s kubectl -- get pods -o wide"
 alias kgpy="u8s kubectl -- get pods -o wide -o yaml"
 alias kgpa="u8s kubectl -- get pods -o wide --all-namespaces --sort-by='{.metadata.namespace}'"
+alias kgpaw="u8s kubectl -- get pods -w -o wide --all-namespaces --sort-by='{.metadata.namespace}'"
+alias kge="u8s kubectl -- get events --sort-by='.metadata.creationTimestamp'"
+alias kgew="u8s kubectl -- get events -w --sort-by='.metadata.creationTimestamp'"
 alias kgn="u8s kubectl -- get nodes -L container-linux-update.v1.coreos.com/version -L zone -L species -L failure-domain.beta.kubernetes.io/zone"
 alias kdn="u8s kubectl -- describe node"
 alias kdp="u8s kubectl -- describe pod"
@@ -76,4 +86,10 @@ test -e "/usr/local/bin/direnv"; and eval (direnv hook fish)
 if status --is-interactive
     set BASE16_SHELL "$HOME/.config/base16-shell/"
     source "$BASE16_SHELL/profile_helper.fish"
+
+  u8s set --kubeconfig ~/.kube/woopse --context woopse > /dev/null 2>&1
 end
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init2.fish 2>/dev/null || :
