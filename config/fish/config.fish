@@ -3,23 +3,13 @@ set -g fish_greeting ''
 set EDITOR /usr/bin/vim
 set GOPATH ~/go
 
-set -g fish_user_paths "$HOME/.dotfiles/bin" $fish_user_paths
-set -g fish_user_paths "/opt/homebrew/bin" $fish_user_paths
-set -g fish_user_paths "/usr/local/bin" $fish_user_paths
-set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
-set -g fish_user_paths "$GOBINPATH/bin" $fish_user_paths
-set -g fish_user_paths "$GOPATH/bin" $fish_user_paths
-set -g fish_user_paths "/usr/local/opt/openssl/bin" $fish_user_paths
-set -g fish_user_paths "/usr/local/opt/curl/bin" $fish_user_paths
-set -g fish_user_paths "/usr/local/opt/coreutils/libexec/gnubin" $fish_user_paths
-set -g fish_user_paths "/usr/local/opt/go/libexec/bin" $fish_user_paths
+fish_add_path ~/.dotfiles/bin
+fish_add_path /opt/homebrew/bin
+fish_add_path $GOPATH/bin
 
 alias t="talosctl"
 
 alias h="u8s helm3 --"
-alias h3="u8s helm3 --"
-alias h2="u8s helm2 --"
-
 alias k="u8s kubectl --"
 alias kn="u8s set --namespace"
 alias kc="u8s set --context"
@@ -28,7 +18,6 @@ function kk
   set -l current_ctx (kubectl --kubeconfig $config_path config current-context 2>/dev/null)
   u8s set --kubeconfig $config_path --context $current_ctx
 end
-
 alias ke="u8s kubectl -- exec -ti"
 alias kl="u8s kubectl -- logs -f"
 alias kg="u8s kubectl -- get"
@@ -48,7 +37,7 @@ alias kds="u8s kubectl -- describe service"
 alias g="git"
 alias gs="git status"
 alias ga="git add"
-alias gr="git remove"
+alias gr="git rm"
 alias gc="git commit"
 alias gca="git commit --amend"
 alias gcam="git commit -am"
@@ -67,7 +56,7 @@ alias gri="git rebase -i"
 alias grm="git rebase master"
 alias gd="git diff"
 alias gdc="git diff --cached"
-alias gss="git stash save"
+alias gss="git stash push"
 alias gsp="git stash pop"
 
 function fish_user_key_bindings
@@ -78,9 +67,8 @@ function fish_user_key_bindings
   bind \e\[1\;9D 'backward-word'
 end
 
+fzf --fish | source
 zoxide init fish | source
-test -e "{$HOME}/.iterm2_shell_integration.fish" ; and source {$HOME}/.iterm2_shell_integration.fish
-test -e "/usr/local/bin/direnv"; and eval (direnv hook fish)
 
 # Base16 Shell
 if status --is-interactive
@@ -89,7 +77,3 @@ if status --is-interactive
 
   u8s set --kubeconfig ~/.kube/woopse --context woopse > /dev/null 2>&1
 end
-
-# Added by OrbStack: command-line tools and integration
-# This won't be added again if you remove it.
-source ~/.orbstack/shell/init2.fish 2>/dev/null || :

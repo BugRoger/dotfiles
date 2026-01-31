@@ -21,6 +21,7 @@ brew install gh
 brew install coreutils
 brew install jq
 brew install eza
+brew install fzf
 brew install procs
 
 # Development
