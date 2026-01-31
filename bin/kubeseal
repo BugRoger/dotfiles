@@ -1,4 +1,0 @@
-#!/bin/bash
-set -x
-eval $(u8s --pid $PPID env)
-exec /usr/local/Cellar/kubeseal/0.12.1/bin/kubeseal --kubeconfig "${U8S_KUBECONFIG}" --context "${U8S_CONTEXT}" --namespace "${U8S_NAMESPACE}" $@
