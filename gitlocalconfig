@@ -1,7 +1,7 @@
 [user]
 	name = Michael Schmidt
-	email = michael02.schmidt@sap.com
+	email = michael.j.schmidt@gmail.com
   signingkey = ~/.ssh/git-signingkey
 
 [gitreview]
-  username = michael02.schmidt@sap.com
+  username = michael.j.schmidt@gmail.com
