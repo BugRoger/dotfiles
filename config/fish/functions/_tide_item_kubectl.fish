@@ -1,0 +1,2 @@
+function _tide_item_kubectl
+end
