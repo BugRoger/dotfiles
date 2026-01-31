@@ -78,7 +78,7 @@ function fish_user_key_bindings
   bind \e\[1\;9D 'backward-word'
 end
 
-test -e "/opt/homebrew/share/autojump/autojump.fish" ; and source /opt/homebrew/share/autojump/autojump.fish
+zoxide init fish | source
 test -e "{$HOME}/.iterm2_shell_integration.fish" ; and source {$HOME}/.iterm2_shell_integration.fish
 test -e "/usr/local/bin/direnv"; and eval (direnv hook fish)
 

@@ -1,0 +1,68 @@
+#!/bin/bash
+#
+# Sets up dotfiles by creating symlinks and initializing submodules.
+
+set -e
+
+DOTFILES="$HOME/.dotfiles"
+
+echo "Setting up dotfiles from $DOTFILES..."
+
+# Initialize and update git submodules (vim plugins, base16-shell)
+echo "Initializing git submodules..."
+cd "$DOTFILES"
+git submodule init
+git submodule update
+
+# Create symlinks
+symlink() {
+  local src="$DOTFILES/$1"
+  local dst="$HOME/$2"
+
+  if [ -L "$dst" ]; then
+    echo "  Updating $dst -> $src"
+    rm "$dst"
+  elif [ -e "$dst" ]; then
+    echo "  Backing up existing $dst to ${dst}.backup"
+    mv "$dst" "${dst}.backup"
+  else
+    echo "  Creating $dst -> $src"
+  fi
+
+  ln -s "$src" "$dst"
+}
+
+echo "Creating symlinks..."
+symlink "config"                                        ".config"
+symlink "gitconfig"                                     ".gitconfig"
+symlink "githelpers"                                    ".githelpers"
+symlink "gitlocalconfig"                                ".gitlocalconfig"
+symlink "vim"                                           ".vim"
+symlink "vimrc"                                         ".vimrc"
+symlink "config/base16-shell/scripts/base16-monokai.sh" ".base16_theme"
+
+# Set fish as default shell
+FISH_PATH="/opt/homebrew/bin/fish"
+if [ -x "$FISH_PATH" ]; then
+  if ! grep -q "$FISH_PATH" /etc/shells; then
+    echo "Adding $FISH_PATH to /etc/shells (requires sudo)..."
+    echo "$FISH_PATH" | sudo tee -a /etc/shells
+  fi
+
+  if [ "$SHELL" != "$FISH_PATH" ]; then
+    echo "Setting fish as default shell..."
+    chsh -s "$FISH_PATH"
+  fi
+else
+  echo "Warning: fish not found at $FISH_PATH. Run scripts/brew first."
+fi
+
+# Install fisher and plugins
+if [ -x "$FISH_PATH" ]; then
+  echo "Installing fisher plugin manager..."
+  $FISH_PATH -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher" 2>/dev/null || true
+  echo "Installing fish plugins..."
+  $FISH_PATH -c "fisher update" 2>/dev/null || true
+fi
+
+echo "Done. Open a new terminal to use fish."
