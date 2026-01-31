@@ -4,3 +4,11 @@ config/fish/fish_read_history
 config/direnv/allow
 vim/.netrwhist
 config/gocode/
+
+.DS_Store
+.claude/
+
+# Auth tokens and secrets
+config/gh/hosts.yml
+config/op/
+config/raycast/config.json
