@@ -1,8 +1,7 @@
 [user]
 	name = Michael Schmidt
 	email = michael.j.schmidt@gmail.com
-  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHBGao3eZwtCSeomtfWXtoq1XfHA+GqABcDgEnPRSBJ9
-
+  
 [gitreview]
   username = michael.j.schmidt@gmail.com
 

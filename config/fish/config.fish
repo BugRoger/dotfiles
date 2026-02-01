@@ -2,6 +2,7 @@ set -g fish_greeting ''
 
 set EDITOR /usr/bin/vim
 set GOPATH ~/go
+set -gx HOST (hostname)
 
 fish_add_path ~/.dotfiles/bin
 fish_add_path /opt/homebrew/bin

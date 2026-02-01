@@ -19,15 +19,25 @@
 [push]
 	default = simple
 
-# Hostname-based default config (if it exists)
+# Hostname-based default config (fallback for when HOST var isn't set)
 [include]
-  path = .gitlocalconfig.host-${HOST}
+  path = ~/.dotfiles/.gitlocalconfig
+
+# Hostname-based default config (if HOST env var is available)
+[include]
+  path = ~/.dotfiles/.gitlocalconfig.host-${HOST}
 
 # URL-based config for different GitHub instances (overrides hostname config)
-[includeIf "hasconfig:remote.*.url:**github.com**"]
+[includeIf "hasconfig:remote.*.url:*@github.com:*/**"]
   path = .gitlocalconfig.github-public
 
-[includeIf "hasconfig:remote.*.url:**github.wdf.sap.corp**"]
+[includeIf "hasconfig:remote.*.url:**github.com/**"]
+  path = .gitlocalconfig.github-public
+
+[includeIf "hasconfig:remote.*.url:*@github.wdf.sap.corp:*/**"]
+  path = .gitlocalconfig.github-sap
+
+[includeIf "hasconfig:remote.*.url:**github.wdf.sap.corp/**"]
   path = .gitlocalconfig.github-sap
 
 [web]
