@@ -17,10 +17,10 @@ Active symlinks:
 
 ## Key Commands
 
-**Install (referenced in README but scripts/ directory is absent):**
+**Setup / update (idempotent — safe to run repeatedly):**
 ```bash
 git clone https://github.com/BugRoger/dotfiles.git ~/.dotfiles
-.dotfiles/scripts/install
+.dotfiles/scripts/upgrade
 ```
 
 **Vim plugins are managed as Git submodules:**
@@ -30,6 +30,15 @@ git submodule add http://github.com/user/plugin.git vim/bundle/plugin-name
 
 # Update all plugins
 git submodule foreach git pull
+```
+
+**App settings sync (for apps that can't be symlinked):**
+```bash
+# Export app settings into the dotfiles repo
+.dotfiles/scripts/export raycast
+
+# Import app settings on a new machine
+.dotfiles/scripts/import raycast
 ```
 
 ## Architecture
@@ -42,6 +51,9 @@ git submodule foreach git pull
 - **`gitconfig`** — Git aliases, SSH commit signing (key at `~/.ssh/git-signingkey`), vim as editor.
 - **`githelpers`** — Bash functions for pretty git log formatting.
 - **`bin/`** — Custom binaries (notably `u8s` for Kubernetes context/config management).
+- **`scripts/upgrade`** — Idempotent setup script: installs Homebrew + packages, creates symlinks, configures fish shell and iTerm2. Safe for both fresh installs and updates.
+- **`scripts/export`** — Dispatcher to export app settings into the dotfiles repo. Currently supports: raycast.
+- **`scripts/import`** — Dispatcher to import app settings from the dotfiles repo. Currently supports: raycast.
 
 ## Important Details
 

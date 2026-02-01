@@ -1,37 +1,42 @@
-# Installation
+# Dotfiles
 
-## Prerequisites
+Personal dotfiles for macOS. Managed via symlinks from `~/.dotfiles/`.
 
-  * Git
-
-## Manual Installation
-
-    git clone https://github.com/BugRoger/dotfiles.git ~/.dotfiles
-    .dotfiles/scripts/install
-
-When setting up a new Mac, you may want to set some sensible OS X defaults:
-
-### Sensible OS X defaults
+## Setup
 
 ```bash
-scripts/osx
+git clone https://github.com/BugRoger/dotfiles.git ~/.dotfiles
+.dotfiles/scripts/upgrade
 ```
 
-### Install Homebrew formulae
+The upgrade script is idempotent — run it on a fresh machine or re-run it anytime to sync changes. It handles:
 
-When setting up a new Mac, you may want to install some common [Homebrew](http://brew.sh/) formulae (after installing Homebrew, of course):
+- Homebrew installation and packages
+- Git submodules (Vim plugins, base16-shell)
+- Symlinks (`~/.config`, `~/.gitconfig`, `~/.vimrc`, etc.)
+- Fish shell as default shell + fisher plugins
+- iTerm2 preferences sync
+
+## App Settings
+
+Some apps can't be configured via symlinks and need explicit export/import:
 
 ```bash
-scripts/brew
+# Export settings into the dotfiles repo
+scripts/export raycast
+
+# Import settings on a new machine
+scripts/import raycast
 ```
 
-## VIM
+## Vim Plugins
 
-Plugins that are published on github can be installed as submodules. 
+Plugins are managed as Git submodules via Pathogen:
 
-    cd ~/dotfiles
-    git submodule add http://github.com/pangloss/vim-javascript.git vim/bundle/vim-javascript
+```bash
+# Add a new plugin
+git submodule add http://github.com/user/plugin.git vim/bundle/plugin-name
 
-Updating all plugins
-
-     git submodule foreach git pull
+# Update all plugins
+git submodule foreach git pull
+```

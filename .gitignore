@@ -12,3 +12,5 @@ config/gocode/
 config/gh/hosts.yml
 config/op/
 config/raycast/config.json
+config/iterm2/AppSupport
+config/iterm2/sockets

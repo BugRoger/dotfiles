@@ -25,15 +25,5 @@
 [web]
 	browser = open
 
-[credential]
-	helper = osxkeychain
-
 [branch]
 	autosetupmerge = true
-
-[gpg]
-	format = ssh
-
-[commit]
-	gpgsign = true
-

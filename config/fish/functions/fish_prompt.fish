@@ -8,7 +8,6 @@ _tide_parent_dirs
 source (functions --details _tide_pwd)
 
 set -l prompt_var _tide_prompt_$fish_pid
-set -U _tide_parent_pid $fish_pid
 set -U $prompt_var # Set var here so if we erase $prompt_var, bg job won't set a uvar
 
 set_color normal | read -l color_normal

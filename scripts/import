@@ -1,0 +1,41 @@
+#!/bin/bash
+#
+# Imports app settings from the dotfiles repo into the system.
+#
+# Usage:
+#   scripts/import <app>
+#
+# Supported apps:
+#   raycast  - Open Raycast settings file for import
+
+set -e
+
+DOTFILES="$HOME/.dotfiles"
+
+import_raycast() {
+  local settings="$DOTFILES/config/raycast/raycast-settings.rayconfig"
+
+  if [ ! -f "$settings" ]; then
+    echo "Error: No settings file found at $settings"
+    echo "Run 'scripts/export raycast' on a machine with your Raycast settings first."
+    exit 1
+  fi
+
+  echo "Opening Raycast import..."
+  open "$settings"
+}
+
+usage() {
+  echo "Usage: $0 <app>"
+  echo ""
+  echo "Import app settings from the dotfiles repo."
+  echo ""
+  echo "Supported apps:"
+  echo "  raycast  Open Raycast settings file for import"
+  exit 1
+}
+
+case "${1:-}" in
+  raycast) import_raycast ;;
+  *)       usage ;;
+esac

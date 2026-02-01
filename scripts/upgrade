@@ -1,20 +1,59 @@
 #!/bin/bash
 #
-# Sets up dotfiles by creating symlinks and initializing submodules.
+# Sets up and updates the development environment.
+# Safe to run repeatedly — all operations are idempotent.
 
 set -e
 
 DOTFILES="$HOME/.dotfiles"
 
-echo "Setting up dotfiles from $DOTFILES..."
+# --- Homebrew -----------------------------------------------------------
 
-# Initialize and update git submodules (vim plugins, base16-shell)
-echo "Initializing git submodules..."
+if ! command -v brew &>/dev/null; then
+  echo "Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+echo "Updating Homebrew..."
+brew update
+
+# Core tools
+brew install fish
+brew install git
+brew install gh
+brew install coreutils
+brew install jq
+brew install eza
+brew install fzf
+brew install procs
+
+# Development
+brew install go
+
+# Kubernetes / Infrastructure
+brew install k9s
+
+# Utilities
+brew install zoxide
+brew install steipete/tap/remindctl
+
+# Casks
+brew install --cask 1password
+brew install --cask 1password-cli
+brew install --cask font-hack-nerd-font
+brew install --cask iterm2
+brew install --cask raycast
+
+# --- Git submodules -----------------------------------------------------
+
+echo "Updating git submodules..."
 cd "$DOTFILES"
 git submodule init
 git submodule update
 
-# Create symlinks
+# --- Symlinks -----------------------------------------------------------
+
 symlink() {
   local src="$DOTFILES/$1"
   local dst="$HOME/$2"
@@ -36,12 +75,20 @@ echo "Creating symlinks..."
 symlink "config"                                        ".config"
 symlink "gitconfig"                                     ".gitconfig"
 symlink "githelpers"                                    ".githelpers"
-symlink "gitlocalconfig"                                ".gitlocalconfig"
+HOSTNAME=$(hostname -s)
+LOCAL_GIT="gitlocalconfig.$HOSTNAME"
+if [ ! -f "$DOTFILES/$LOCAL_GIT" ]; then
+  echo "Warning: No $LOCAL_GIT found. Create one for this host."
+  echo "  cp $DOTFILES/gitlocalconfig.mooncake $DOTFILES/$LOCAL_GIT"
+else
+  symlink "$LOCAL_GIT"                                    ".gitlocalconfig"
+fi
 symlink "vim"                                           ".vim"
 symlink "vimrc"                                         ".vimrc"
 symlink "config/base16-shell/scripts/base16-monokai.sh" ".base16_theme"
 
-# Set fish as default shell
+# --- Fish shell ---------------------------------------------------------
+
 FISH_PATH="/opt/homebrew/bin/fish"
 if [ -x "$FISH_PATH" ]; then
   if ! grep -q "$FISH_PATH" /etc/shells; then
@@ -53,21 +100,19 @@ if [ -x "$FISH_PATH" ]; then
     echo "Setting fish as default shell..."
     chsh -s "$FISH_PATH"
   fi
-else
-  echo "Warning: fish not found at $FISH_PATH. Run scripts/brew first."
-fi
 
-# Install fisher and plugins
-if [ -x "$FISH_PATH" ]; then
   echo "Installing fisher plugin manager..."
   $FISH_PATH -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher" 2>/dev/null || true
-  echo "Installing fish plugins..."
+  echo "Updating fish plugins..."
   $FISH_PATH -c "fisher update" 2>/dev/null || true
 fi
 
-# Configure iTerm2 to load/save preferences from dotfiles
+# --- iTerm2 -------------------------------------------------------------
+
 echo "Configuring iTerm2 preferences sync..."
 defaults write com.googlecode.iterm2 PrefsCustomFolder -string "~/.config/iterm2"
 defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+
+# ------------------------------------------------------------------------
 
 echo "Done. Open a new terminal to use fish."

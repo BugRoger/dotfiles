@@ -1,0 +1,58 @@
+#!/bin/bash
+#
+# Exports app settings into the dotfiles repo.
+#
+# Usage:
+#   scripts/export <app>
+#
+# Supported apps:
+#   raycast  - Export Raycast settings from ~/Downloads
+
+set -e
+
+DOTFILES="$HOME/.dotfiles"
+
+export_raycast() {
+  local dest_dir="$DOTFILES/config/raycast"
+  local dest_file="$dest_dir/raycast-settings.rayconfig"
+  local download_dir="$HOME/Downloads"
+
+  echo "Raycast Settings Export"
+  echo "======================"
+  echo ""
+  echo "1. Open Raycast Settings > Advanced > Export Settings & Data"
+  echo "   - Save to: $download_dir"
+  echo ""
+  read -p "Press Enter after saving the .rayconfig file... "
+
+  local exported
+  exported=$(ls -t "$download_dir"/Raycast*.rayconfig 2>/dev/null | head -1)
+
+  if [ -z "$exported" ]; then
+    echo "Error: No .rayconfig file found in $download_dir"
+    exit 1
+  fi
+
+  echo "Found: $(basename "$exported")"
+
+  mkdir -p "$dest_dir"
+  mv "$exported" "$dest_file"
+
+  echo ""
+  echo "Settings saved to: $dest_file"
+}
+
+usage() {
+  echo "Usage: $0 <app>"
+  echo ""
+  echo "Export app settings into the dotfiles repo."
+  echo ""
+  echo "Supported apps:"
+  echo "  raycast  Export Raycast settings from ~/Downloads"
+  exit 1
+}
+
+case "${1:-}" in
+  raycast) export_raycast ;;
+  *)       usage ;;
+esac
