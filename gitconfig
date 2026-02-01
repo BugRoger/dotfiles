@@ -28,14 +28,8 @@
   path = ~/.dotfiles/.gitlocalconfig.host-${HOST}
 
 # URL-based config for different GitHub instances (overrides hostname config)
-[includeIf "hasconfig:remote.*.url:*@github.com:*/**"]
-  path = .gitlocalconfig.github-public
-
 [includeIf "hasconfig:remote.*.url:**github.com/**"]
   path = .gitlocalconfig.github-public
-
-[includeIf "hasconfig:remote.*.url:*@github.wdf.sap.corp:*/**"]
-  path = .gitlocalconfig.github-sap
 
 [includeIf "hasconfig:remote.*.url:**github.wdf.sap.corp/**"]
   path = .gitlocalconfig.github-sap
