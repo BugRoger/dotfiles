@@ -1,0 +1,15 @@
+[user]
+	name = Michael Schmidt
+	email = michael02.schmidt@sap.com
+
+[gitreview]
+  username = michael02.schmidt@sap.com
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+[commit]
+  gpgsign = true
