@@ -40,5 +40,6 @@ brew install steipete/tap/remindctl
 brew install --cask 1password
 brew install --cask 1password-cli
 brew install --cask font-hack-nerd-font
+brew install --cask iterm2
 
 echo "Done. You may need to restart your shell."

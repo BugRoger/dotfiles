@@ -65,4 +65,9 @@ if [ -x "$FISH_PATH" ]; then
   $FISH_PATH -c "fisher update" 2>/dev/null || true
 fi
 
+# Configure iTerm2 to load/save preferences from dotfiles
+echo "Configuring iTerm2 preferences sync..."
+defaults write com.googlecode.iterm2 PrefsCustomFolder -string "~/.config/iterm2"
+defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+
 echo "Done. Open a new terminal to use fish."
