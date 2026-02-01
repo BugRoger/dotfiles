@@ -17,3 +17,4 @@ config/iterm2/sockets
 config/fish/fish_variables
 config/raycast/extensions/
 config/cagent/
+config/raycast/ai/
